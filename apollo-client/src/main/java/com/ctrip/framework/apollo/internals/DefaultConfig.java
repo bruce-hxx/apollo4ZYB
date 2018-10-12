@@ -11,6 +11,7 @@ import java.util.Set;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicReference;
 
+import com.ctrip.framework.apollo.exceptions.ApolloConfigNullValueException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -93,6 +94,46 @@ public class DefaultConfig extends AbstractConfig implements RepositoryChangeLis
     }
 
     return value == null ? defaultValue : value;
+  }
+
+  //增加无默认值方法 20181012 by yuhaod
+  @Override
+  public String getProperty(String key) {
+    // step 1: check system properties, i.e. -Dkey=value
+    String value = System.getProperty(key);
+
+    // step 2: check local cached properties file
+    if (value == null && m_configProperties.get() != null) {
+      value = m_configProperties.get().getProperty(key);
+    }
+
+    /**
+     * step 3: check env variable, i.e. PATH=...
+     * normally system environment variables are in UPPERCASE, however there might be exceptions.
+     * so the caller should provide the key in the right case
+     */
+    if (value == null) {
+      value = System.getenv(key);
+    }
+
+    // step 4: check properties file from classpath
+    if (value == null && m_resourceProperties != null) {
+      value = (String) m_resourceProperties.get(key);
+    }
+
+    if (value == null && m_configProperties.get() == null && m_warnLogRateLimiter.tryAcquire()) {
+      logger.warn("Could not load config for namespace {} from Apollo, please check whether the configs are released in Apollo! Return default value now!", m_namespace);
+    }
+
+    if (value != null){
+      return value;
+    }else{
+      ApolloConfigNullValueException nullValueException = new ApolloConfigNullValueException(
+              String.format("getProperty for %s failed, because this value is null.", key));
+      Tracer.logError(nullValueException);
+      throw nullValueException;
+    }
+
   }
 
   @Override

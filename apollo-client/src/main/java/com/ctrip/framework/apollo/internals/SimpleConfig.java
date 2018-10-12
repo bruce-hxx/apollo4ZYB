@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import com.ctrip.framework.apollo.exceptions.ApolloConfigNullValueException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,6 +59,17 @@ public class SimpleConfig extends AbstractConfig implements RepositoryChangeList
       return defaultValue;
     }
     return this.m_configProperties.getProperty(key, defaultValue);
+  }
+  //增加无默认值方法 20181012 by yuhaod
+  @Override
+  public String getProperty(String key) {
+    if (m_configProperties == null) {
+      logger.warn("Could not load config from Apollo !");
+      ApolloConfigNullValueException nullValueException = new ApolloConfigNullValueException(
+              String.format("Could not load config from Apollo."));
+      throw nullValueException;
+    }
+    return this.m_configProperties.getProperty(key);
   }
 
   @Override

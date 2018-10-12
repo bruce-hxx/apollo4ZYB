@@ -1,11 +1,15 @@
 package com.ctrip.framework.apollo;
 
+import com.ctrip.framework.apollo.util.parser.ParserException;
+
 import java.util.Date;
 import java.util.Locale;
 import java.util.Set;
 
 /**
  * @author Jason Song(song_s@ctrip.com)
+ *
+ * 添加无默认值方法 modify 20181011 by yuhaod
  */
 public interface Config {
   /**
@@ -16,6 +20,13 @@ public interface Config {
    * @return the property value
    */
   public String getProperty(String key, String defaultValue);
+  /**
+   * Return the property value with the given key, or throw exception if the key doesn't exist.
+   *
+   * @param key          the property name
+   * @return the property value
+   */
+  public String getProperty(String key);
 
   /**
    * Return the integer property value with the given key, or {@code defaultValue} if the key
@@ -26,6 +37,13 @@ public interface Config {
    * @return the property value as integer
    */
   public Integer getIntProperty(String key, Integer defaultValue);
+  /**
+   * Return the property value with the given key, or throw exception if the key doesn't exist.
+   *
+   * @param key          the property name
+   * @return the property value
+   */
+  public Integer getIntProperty(String key);
 
   /**
    * Return the long property value with the given key, or {@code defaultValue} if the key doesn't
@@ -36,6 +54,13 @@ public interface Config {
    * @return the property value as long
    */
   public Long getLongProperty(String key, Long defaultValue);
+  /**
+   * Return the property value with the given key, or throw exception if the key doesn't exist.
+   *
+   * @param key          the property name
+   * @return the property value
+   */
+  public Long getLongProperty(String key);
 
   /**
    * Return the short property value with the given key, or {@code defaultValue} if the key doesn't
@@ -46,6 +71,13 @@ public interface Config {
    * @return the property value as short
    */
   public Short getShortProperty(String key, Short defaultValue);
+  /**
+   * Return the property value with the given key, or throw exception if the key doesn't exist.
+   *
+   * @param key          the property name
+   * @return the property value
+   */
+  public Short getShortProperty(String key);
 
   /**
    * Return the float property value with the given key, or {@code defaultValue} if the key doesn't
@@ -56,6 +88,13 @@ public interface Config {
    * @return the property value as float
    */
   public Float getFloatProperty(String key, Float defaultValue);
+  /**
+   * Return the property value with the given key, or throw exception if the key doesn't exist.
+   *
+   * @param key          the property name
+   * @return the property value
+   */
+  public Float getFloatProperty(String key);
 
   /**
    * Return the double property value with the given key, or {@code defaultValue} if the key doesn't
@@ -66,6 +105,13 @@ public interface Config {
    * @return the property value as double
    */
   public Double getDoubleProperty(String key, Double defaultValue);
+  /**
+   * Return the property value with the given key, or throw exception if the key doesn't exist.
+   *
+   * @param key          the property name
+   * @return the property value
+   */
+  public Double getDoubleProperty(String key);
 
   /**
    * Return the byte property value with the given key, or {@code defaultValue} if the key doesn't
@@ -76,6 +122,13 @@ public interface Config {
    * @return the property value as byte
    */
   public Byte getByteProperty(String key, Byte defaultValue);
+  /**
+   * Return the property value with the given key, or throw exception if the key doesn't exist.
+   *
+   * @param key          the property name
+   * @return the property value
+   */
+  public Byte getByteProperty(String key);
 
   /**
    * Return the boolean property value with the given key, or {@code defaultValue} if the key
@@ -86,6 +139,13 @@ public interface Config {
    * @return the property value as boolean
    */
   public Boolean getBooleanProperty(String key, Boolean defaultValue);
+  /**
+   * Return the property value with the given key, or throw exception if the key doesn't exist.
+   *
+   * @param key          the property name
+   * @return the property value
+   */
+  public Boolean getBooleanProperty(String key);
 
   /**
    * Return the array property value with the given key, or {@code defaultValue} if the key doesn't exist.
@@ -95,6 +155,14 @@ public interface Config {
    * @param defaultValue the default value when key is not found or any error occurred
    */
   public String[] getArrayProperty(String key, String delimiter, String[] defaultValue);
+  /**
+   * Return the property value with the given key, or throw exception if the key doesn't exist.
+   *
+   * @param key          the property name
+   * @param delimiter    the delimiter regex
+   * @return the property value
+   */
+  public String[] getArrayProperty(String key, String delimiter);
 
   /**
    * Return the Date property value with the given name, or {@code defaultValue} if the name doesn't exist.
@@ -106,6 +174,15 @@ public interface Config {
    * @return the property value
    */
   public Date getDateProperty(String key, Date defaultValue);
+  /**
+   * Return the Date property value with the given name, or throw exception if the name doesn't exist.
+   * Will try to parse the date with Locale.US and formats as follows: yyyy-MM-dd HH:mm:ss.SSS,
+   * yyyy-MM-dd HH:mm:ss and yyyy-MM-dd
+   *
+   * @param key          the property name
+   * @return the property value
+   */
+  public Date getDateProperty(String key);
 
   /**
    * Return the Date property value with the given name, or {@code defaultValue} if the name doesn't exist.
@@ -118,6 +195,16 @@ public interface Config {
    * @return the property value
    */
   public Date getDateProperty(String key, String format, Date defaultValue);
+  /**
+   * Return the Date property value with the given name, or throw exception if the name doesn't exist.
+   * Will parse the date with the format specified and Locale.US
+   *
+   * @param key          the property name
+   * @param format       the date format, see {@link java.text.SimpleDateFormat} for more
+   *                     information
+   * @return the property value
+   */
+  public Date getDateProperty(String key, String format) throws ParserException;
 
   /**
    * Return the Date property value with the given name, or {@code defaultValue} if the name doesn't exist.
@@ -130,6 +217,16 @@ public interface Config {
    * @return the property value
    */
   public Date getDateProperty(String key, String format, Locale locale, Date defaultValue);
+  /**
+   * Return the Date property value with the given name, or throw exception if the name doesn't exist.
+   *
+   * @param key          the property name
+   * @param format       the date format, see {@link java.text.SimpleDateFormat} for more
+   *                     information
+   * @param locale       the locale to use
+   * @return the property value
+   */
+  public Date getDateProperty(String key, String format, Locale locale);
 
   /**
    * Return the Enum property value with the given key, or {@code defaultValue} if the key doesn't exist.
@@ -141,6 +238,15 @@ public interface Config {
    * @return the property value
    */
   public <T extends Enum<T>> T getEnumProperty(String key, Class<T> enumType, T defaultValue);
+  /**
+   * Return the Enum property value with the given key, or throw exception if the key doesn't exist.
+   *
+   * @param key          the property name
+   * @param enumType     the enum class
+   * @param <T>          the enum
+   * @return the property value
+   */
+  public <T extends Enum<T>> T getEnumProperty(String key, Class<T> enumType);
 
   /**
    * Return the duration property value(in milliseconds) with the given name, or {@code
@@ -160,6 +266,23 @@ public interface Config {
    * @return the parsed property value(in milliseconds)
    */
   public long getDurationProperty(String key, long defaultValue);
+  /**
+   * Return the duration property value(in milliseconds) with the given name, or throw exception
+   * if the name doesn't exist. Please note the format should comply with the follow
+   * example (case insensitive). Examples:
+   * <pre>
+   *    "123MS"          -- parses as "123 milliseconds"
+   *    "20S"            -- parses as "20 seconds"
+   *    "15M"            -- parses as "15 minutes" (where a minute is 60 seconds)
+   *    "10H"            -- parses as "10 hours" (where an hour is 3600 seconds)
+   *    "2D"             -- parses as "2 days" (where a day is 24 hours or 86400 seconds)
+   *    "2D3H4M5S123MS"  -- parses as "2 days, 3 hours, 4 minutes, 5 seconds and 123 milliseconds"
+   * </pre>
+   *
+   * @param key          the property name
+   * @return the parsed property value(in milliseconds)
+   */
+  public long getDurationProperty(String key);
 
   /**
    * Add change listener to this config instance, will be notified when any key is changed in this namespace.

@@ -10,6 +10,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
 
+import com.ctrip.framework.apollo.exceptions.ApolloConfigNullValueException;
+import com.ctrip.framework.apollo.util.parser.ParserException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -104,6 +106,27 @@ public abstract class AbstractConfig implements Config {
     }
     return defaultValue;
   }
+  //增加无默认值方法 20181012 by yuhaod
+  @Override
+  public Integer getIntProperty(String key) {
+    try {
+      if (m_integerCache == null) {
+        synchronized (this) {
+          if (m_integerCache == null) {
+            m_integerCache = newCache();
+          }
+        }
+      }
+
+      return getValueFromCache(key, Functions.TO_INT_FUNCTION, m_integerCache);
+    } catch (ApolloConfigNullValueException nve){
+      throw nve;
+    } catch (Throwable ex) {
+      Tracer.logError(new ApolloConfigException(
+              String.format("getIntProperty for %s failed, unspecified default value", key), ex));
+      throw ex;
+    }
+  }
 
   @Override
   public Long getLongProperty(String key, Long defaultValue) {
@@ -119,10 +142,31 @@ public abstract class AbstractConfig implements Config {
       return getValueFromCache(key, Functions.TO_LONG_FUNCTION, m_longCache, defaultValue);
     } catch (Throwable ex) {
       Tracer.logError(new ApolloConfigException(
-          String.format("getLongProperty for %s failed, return default value %d", key,
-              defaultValue), ex));
+              String.format("getLongProperty for %s failed, return default value %d", key,
+                      defaultValue), ex));
     }
     return defaultValue;
+  }
+  //增加无默认值方法 20181012 by yuhaod
+  @Override
+  public Long getLongProperty(String key) {
+    try {
+      if (m_longCache == null) {
+        synchronized (this) {
+          if (m_longCache == null) {
+            m_longCache = newCache();
+          }
+        }
+      }
+
+      return getValueFromCache(key, Functions.TO_LONG_FUNCTION, m_longCache);
+    } catch (ApolloConfigNullValueException nve){
+      throw nve;
+    } catch (Throwable ex) {
+      Tracer.logError(new ApolloConfigException(
+              String.format("getLongProperty for %s failed, unspecified default value", key), ex));
+      throw ex;
+    }
   }
 
   @Override
@@ -144,6 +188,27 @@ public abstract class AbstractConfig implements Config {
     }
     return defaultValue;
   }
+  //增加无默认值方法 20181012 by yuhaod
+  @Override
+  public Short getShortProperty(String key) {
+    try {
+      if (m_shortCache == null) {
+        synchronized (this) {
+          if (m_shortCache == null) {
+            m_shortCache = newCache();
+          }
+        }
+      }
+
+      return getValueFromCache(key, Functions.TO_SHORT_FUNCTION, m_shortCache);
+    } catch (ApolloConfigNullValueException nve){
+      throw nve;
+    } catch (Throwable ex) {
+      Tracer.logError(new ApolloConfigException(
+              String.format("getShortProperty for %s failed, unspecified default value", key), ex));
+      throw ex;
+    }
+  }
 
   @Override
   public Float getFloatProperty(String key, Float defaultValue) {
@@ -163,6 +228,27 @@ public abstract class AbstractConfig implements Config {
               defaultValue), ex));
     }
     return defaultValue;
+  }
+  //增加无默认值方法 20181012 by yuhaod
+  @Override
+  public Float getFloatProperty(String key) {
+    try {
+      if (m_floatCache == null) {
+        synchronized (this) {
+          if (m_floatCache == null) {
+            m_floatCache = newCache();
+          }
+        }
+      }
+
+      return getValueFromCache(key, Functions.TO_FLOAT_FUNCTION, m_floatCache);
+    } catch (ApolloConfigNullValueException nve){
+      throw nve;
+    } catch (Throwable ex) {
+      Tracer.logError(new ApolloConfigException(
+              String.format("getFloatProperty for %s failed, unspecified default value", key), ex));
+      throw ex;
+    }
   }
 
   @Override
@@ -184,6 +270,27 @@ public abstract class AbstractConfig implements Config {
     }
     return defaultValue;
   }
+  //增加无默认值方法 20181012 by yuhaod
+  @Override
+  public Double getDoubleProperty(String key) {
+    try {
+      if (m_doubleCache == null) {
+        synchronized (this) {
+          if (m_doubleCache == null) {
+            m_doubleCache = newCache();
+          }
+        }
+      }
+
+      return getValueFromCache(key, Functions.TO_DOUBLE_FUNCTION, m_doubleCache);
+    } catch (ApolloConfigNullValueException nve){
+      throw nve;
+    } catch (Throwable ex) {
+      Tracer.logError(new ApolloConfigException(
+              String.format("getDoubleProperty for %s failed, unspecified default value", key), ex));
+      throw ex;
+    }
+  }
 
   @Override
   public Byte getByteProperty(String key, Byte defaultValue) {
@@ -204,6 +311,27 @@ public abstract class AbstractConfig implements Config {
     }
     return defaultValue;
   }
+  //增加无默认值方法 20181012 by yuhaod
+  @Override
+  public Byte getByteProperty(String key) {
+    try {
+      if (m_byteCache == null) {
+        synchronized (this) {
+          if (m_byteCache == null) {
+            m_byteCache = newCache();
+          }
+        }
+      }
+
+      return getValueFromCache(key, Functions.TO_BYTE_FUNCTION, m_byteCache);
+    } catch (ApolloConfigNullValueException nve){
+      throw nve;
+    } catch (Throwable ex) {
+      Tracer.logError(new ApolloConfigException(
+              String.format("getByteProperty for %s failed, unspecified default value", key), ex));
+      throw ex;
+    }
+  }
 
   @Override
   public Boolean getBooleanProperty(String key, Boolean defaultValue) {
@@ -223,6 +351,27 @@ public abstract class AbstractConfig implements Config {
               defaultValue), ex));
     }
     return defaultValue;
+  }
+  //增加无默认值方法 20181012 by yuhaod
+  @Override
+  public Boolean getBooleanProperty(String key) {
+    try {
+      if (m_booleanCache == null) {
+        synchronized (this) {
+          if (m_booleanCache == null) {
+            m_booleanCache = newCache();
+          }
+        }
+      }
+
+      return getValueFromCache(key, Functions.TO_BOOLEAN_FUNCTION, m_booleanCache);
+    } catch (ApolloConfigNullValueException nve){
+      throw nve;
+    } catch (Throwable ex) {
+      Tracer.logError(new ApolloConfigException(
+              String.format("getBooleanProperty for %s failed, unspecified default value", key), ex));
+      throw ex;
+    }
   }
 
   @Override
@@ -255,6 +404,39 @@ public abstract class AbstractConfig implements Config {
     }
     return defaultValue;
   }
+  //增加无默认值方法 20181012 by yuhaod
+  @Override
+  public String[] getArrayProperty(String key, final String delimiter) {
+    try {
+      if (!m_arrayCache.containsKey(delimiter)) {
+        synchronized (this) {
+          if (!m_arrayCache.containsKey(delimiter)) {
+            m_arrayCache.put(delimiter, this.<String[]>newCache());
+          }
+        }
+      }
+
+      Cache<String, String[]> cache = m_arrayCache.get(delimiter);
+      String[] result = cache.getIfPresent(key);
+
+      if (result != null) {
+        return result;
+      }
+
+      return getValueAndStoreToCache(key, new Function<String, String[]>() {
+        @Override
+        public String[] apply(String input) {
+          return input.split(delimiter);
+        }
+      }, cache);
+    } catch (ApolloConfigNullValueException nve){
+      throw nve;
+    } catch (Throwable ex) {
+      Tracer.logError(new ApolloConfigException(
+              String.format("getArrayProperty for %s failed, unspecified default value", key), ex));
+      throw ex;
+    }
+  }
 
   @Override
   public <T extends Enum<T>> T getEnumProperty(String key, Class<T> enumType, T defaultValue) {
@@ -271,6 +453,21 @@ public abstract class AbstractConfig implements Config {
     }
 
     return defaultValue;
+  }
+  //增加无默认值方法 20181012 by yuhaod
+  @Override
+  public <T extends Enum<T>> T getEnumProperty(String key, Class<T> enumType) {
+    try {
+      String value = getProperty(key);
+
+      return Enum.valueOf(enumType, value);
+    } catch (ApolloConfigNullValueException nve) {
+      throw nve;
+    } catch (Throwable ex) {
+      Tracer.logError(new ApolloConfigException(
+              String.format("getEnumProperty for %s failed, unspecified default value", key), ex));
+      throw ex;
+    }
   }
 
   @Override
@@ -293,6 +490,27 @@ public abstract class AbstractConfig implements Config {
 
     return defaultValue;
   }
+  //增加无默认值方法 20181012 by yuhaod
+  @Override
+  public Date getDateProperty(String key) {
+    try {
+      if (m_dateCache == null) {
+        synchronized (this) {
+          if (m_dateCache == null) {
+            m_dateCache = newCache();
+          }
+        }
+      }
+
+      return getValueFromCache(key, Functions.TO_DATE_FUNCTION, m_dateCache);
+    } catch (ApolloConfigNullValueException nve){
+      throw nve;
+    } catch (Throwable ex) {
+      Tracer.logError(new ApolloConfigException(
+              String.format("getDateProperty for %s failed, unspecified default value", key), ex));
+      throw ex;
+    }
+  }
 
   @Override
   public Date getDateProperty(String key, String format, Date defaultValue) {
@@ -309,6 +527,21 @@ public abstract class AbstractConfig implements Config {
     }
 
     return defaultValue;
+  }
+  //增加无默认值方法 20181012 by yuhaod
+  @Override
+  public Date getDateProperty(String key, String format){
+    try {
+      String value = getProperty(key);
+      return Parsers.forDate().parse(value, format);
+    } catch (ApolloConfigNullValueException nve){
+      throw nve;
+    } catch (Throwable ex) {
+      ApolloConfigException apolloConfigException = new ApolloConfigException(
+              String.format("getDateProperty for %s failed, unspecified default value", key), ex);
+      Tracer.logError(apolloConfigException);
+      throw apolloConfigException;
+    }
   }
 
   @Override
@@ -327,6 +560,21 @@ public abstract class AbstractConfig implements Config {
 
     return defaultValue;
   }
+  //增加无默认值方法 20181012 by yuhaod
+  @Override
+  public Date getDateProperty(String key, String format, Locale locale) {
+    try {
+      String value = getProperty(key);
+      return Parsers.forDate().parse(value, format, locale);
+    } catch (ApolloConfigNullValueException nve){
+      throw nve;
+    } catch (Throwable ex) {
+      ApolloConfigException apolloConfigException = new ApolloConfigException(
+              String.format("getDateProperty for %s failed, unspecified default value", key), ex);
+      Tracer.logError(apolloConfigException);
+      throw apolloConfigException;
+    }
+  }
 
   @Override
   public long getDurationProperty(String key, long defaultValue) {
@@ -342,11 +590,32 @@ public abstract class AbstractConfig implements Config {
       return getValueFromCache(key, Functions.TO_DURATION_FUNCTION, m_durationCache, defaultValue);
     } catch (Throwable ex) {
       Tracer.logError(new ApolloConfigException(
-          String.format("getDurationProperty for %s failed, return default value %d", key,
-              defaultValue), ex));
+              String.format("getDurationProperty for %s failed, return default value %d", key,
+                      defaultValue), ex));
     }
 
     return defaultValue;
+  }
+  //增加无默认值方法 20181012 by yuhaod
+  @Override
+  public long getDurationProperty(String key) {
+    try {
+      if (m_durationCache == null) {
+        synchronized (this) {
+          if (m_durationCache == null) {
+            m_durationCache = newCache();
+          }
+        }
+      }
+
+      return getValueFromCache(key, Functions.TO_DURATION_FUNCTION, m_durationCache);
+    } catch (ApolloConfigNullValueException nve){
+      throw nve;
+    } catch (Throwable ex) {
+      Tracer.logError(new ApolloConfigException(
+              String.format("getDurationProperty for %s failed, unspecified default value", key), ex));
+      throw ex;
+    }
   }
 
   private <T> T getValueFromCache(String key, Function<String, T> parser, Cache<String, T> cache, T defaultValue) {
@@ -357,6 +626,16 @@ public abstract class AbstractConfig implements Config {
     }
 
     return getValueAndStoreToCache(key, parser, cache, defaultValue);
+  }
+  //增加无默认值方法 20181012 by yuhaod
+  private <T> T getValueFromCache(String key, Function<String, T> parser, Cache<String, T> cache) {
+    T result = cache.getIfPresent(key);
+
+    if (result != null) {
+      return result;
+    }
+
+    return getValueAndStoreToCache(key, parser, cache);
   }
 
   private <T> T getValueAndStoreToCache(String key, Function<String, T> parser, Cache<String, T> cache, T defaultValue) {
@@ -377,6 +656,21 @@ public abstract class AbstractConfig implements Config {
     }
 
     return defaultValue;
+  }
+  //增加无默认值方法 20181012 by yuhaod
+  private <T> T getValueAndStoreToCache(String key, Function<String, T> parser, Cache<String, T> cache) {
+    long currentConfigVersion = m_configVersion.get();
+    String value = getProperty(key);
+
+    T result = parser.apply(value);
+
+    synchronized (this) {
+      if (m_configVersion.get() == currentConfigVersion) {
+        cache.put(key, result);
+      }
+    }
+    return result;
+
   }
 
   private <T> Cache<String, T> newCache() {
