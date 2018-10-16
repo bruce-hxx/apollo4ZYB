@@ -42,7 +42,9 @@ public class ConfigUtil {
     initCluster();
     initQPS();
     initMaxConfigCacheSize();
+    initConfigCacheExpireTime();
     initLongPollingInitialDelayInMills();
+    initOnErrorRetryInterval();
     initAutoUpdateInjectedSpringProperties();
   }
 
@@ -188,6 +190,17 @@ public class ConfigUtil {
     return longPollQPS;
   }
 
+  //20181015新增 by yuhaod
+  private void initOnErrorRetryInterval() {
+    String customizedOnErrorRetryInterval = System.getProperty("apollo.onErrorRetryInterval");
+    if (!Strings.isNullOrEmpty(customizedOnErrorRetryInterval)) {
+      try {
+        onErrorRetryInterval = Long.valueOf(customizedOnErrorRetryInterval);
+      } catch (Throwable ex) {
+        logger.error("Config for apollo.onErrorRetryInterval is invalid: {}", customizedOnErrorRetryInterval);
+      }
+    }
+  }
   public long getOnErrorRetryInterval() {
     return onErrorRetryInterval;
   }
@@ -252,6 +265,18 @@ public class ConfigUtil {
 
   public long getMaxConfigCacheSize() {
     return maxConfigCacheSize;
+  }
+
+  //20181015新增 by yuhaod
+  private void initConfigCacheExpireTime() {
+    String customizedConfigCacheExpireTime = System.getProperty("apollo.configCacheExpireTime");
+    if (!Strings.isNullOrEmpty(customizedConfigCacheExpireTime)) {
+      try {
+        configCacheExpireTime = Long.valueOf(customizedConfigCacheExpireTime);
+      } catch (Throwable ex) {
+        logger.error("Config for apollo.configCacheExpireTime is invalid: {}", customizedConfigCacheExpireTime);
+      }
+    }
   }
 
   public long getConfigCacheExpireTime() {

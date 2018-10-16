@@ -66,10 +66,10 @@ public abstract class AbstractConfig implements Config {
   }
 
   public AbstractConfig() {
-      m_configUtil = ApolloInjector.getInstance(ConfigUtil.class);
-      m_configVersion = new AtomicLong();
-      m_arrayCache = Maps.newConcurrentMap();
-      allCaches = Lists.newArrayList();
+    m_configUtil = ApolloInjector.getInstance(ConfigUtil.class);
+    m_configVersion = new AtomicLong();
+    m_arrayCache = Maps.newConcurrentMap();
+    allCaches = Lists.newArrayList();
   }
 
   @Override
@@ -85,6 +85,12 @@ public abstract class AbstractConfig implements Config {
         m_interestedKeys.put(listener, Sets.newHashSet(interestedKeys));
       }
     }
+  }
+
+  @Override
+  public boolean removeChangeListener(ConfigChangeListener listener) {
+    m_interestedKeys.remove(listener);
+    return m_listeners.remove(listener);
   }
 
   @Override
@@ -506,9 +512,10 @@ public abstract class AbstractConfig implements Config {
     } catch (ApolloConfigNullValueException nve){
       throw nve;
     } catch (Throwable ex) {
-      Tracer.logError(new ApolloConfigException(
-              String.format("getDateProperty for %s failed, unspecified default value", key), ex));
-      throw ex;
+      ApolloConfigException apolloConfigException = new ApolloConfigException(
+              String.format("getDateProperty for %s failed, unspecified default value", key), ex);
+      Tracer.logError(apolloConfigException);
+      throw apolloConfigException;
     }
   }
 
@@ -590,8 +597,8 @@ public abstract class AbstractConfig implements Config {
       return getValueFromCache(key, Functions.TO_DURATION_FUNCTION, m_durationCache, defaultValue);
     } catch (Throwable ex) {
       Tracer.logError(new ApolloConfigException(
-              String.format("getDurationProperty for %s failed, return default value %d", key,
-                      defaultValue), ex));
+          String.format("getDurationProperty for %s failed, return default value %d", key,
+              defaultValue), ex));
     }
 
     return defaultValue;

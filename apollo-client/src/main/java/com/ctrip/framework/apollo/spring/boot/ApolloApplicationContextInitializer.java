@@ -87,6 +87,11 @@ public class ApolloApplicationContextInitializer implements
     for (String propertyName : APOLLO_SYSTEM_PROPERTIES) {
       fillSystemPropertyFromEnvironment(environment, propertyName);
     }
+    //增加配置读入 by yuhaod 20181015
+    for (String propertyName : ZYBankDefinedProperTies.getZybankSystemProperties()) {
+      fillSystemPropertyFromEnvironment(environment, propertyName);
+    }
+
   }
 
   private void fillSystemPropertyFromEnvironment(ConfigurableEnvironment environment, String propertyName) {
