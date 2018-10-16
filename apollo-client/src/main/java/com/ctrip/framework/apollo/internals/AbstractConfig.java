@@ -624,6 +624,23 @@ public abstract class AbstractConfig implements Config {
       throw ex;
     }
   }
+  
+  @Override
+  public <T> T getProperty(String key, Function<String, T> function, T defaultValue) {
+    try {
+      String value = getProperty(key, null);
+
+      if (value != null) {
+        return function.apply(value);
+      }
+    } catch (Throwable ex) {
+      Tracer.logError(new ApolloConfigException(
+              String.format("getProperty for %s failed, return default value %s", key,
+                      defaultValue), ex));
+    }
+
+    return defaultValue;
+  }
 
   private <T> T getValueFromCache(String key, Function<String, T> parser, Cache<String, T> cache, T defaultValue) {
     T result = cache.getIfPresent(key);

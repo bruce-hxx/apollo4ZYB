@@ -99,6 +99,15 @@ public class ConfigServiceTest {
     }
 
     @Override
+    public String getProperty(String key) {
+      if (key.equals("unknown")) {
+        return null;
+      }
+
+      return m_namespace + ":" + key;
+    }
+
+    @Override
     public Set<String> getPropertyNames() {
       return null;
     }

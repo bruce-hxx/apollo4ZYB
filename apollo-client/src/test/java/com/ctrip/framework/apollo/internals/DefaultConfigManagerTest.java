@@ -101,6 +101,11 @@ public class DefaultConfigManagerTest {
             }
 
             @Override
+            public String getProperty(String key) {
+              return namespace + ":" + key;
+            }
+
+            @Override
             public Set<String> getPropertyNames() {
               return null;
             }

@@ -1,7 +1,9 @@
 package com.ctrip.framework.apollo;
 
 import com.ctrip.framework.apollo.enums.ConfigSourceType;
+import com.ctrip.framework.apollo.util.parser.ParserException;
 import com.google.common.base.Function;
+import com.ctrip.framework.apollo.exceptions.ApolloConfigNullValueException;
 
 import java.util.Date;
 import java.util.Locale;

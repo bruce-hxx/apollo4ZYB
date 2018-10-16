@@ -13,6 +13,7 @@
 /Users/yuhao/Code/MicroService/apollo4ZYB/apollo-portal/src/test/java/com/ctrip/framework/apollo/openapi/service/ConsumerServiceTest.java
 /Users/yuhao/Code/MicroService/apollo4ZYB/apollo-portal/src/test/java/com/ctrip/framework/apollo/portal/AbstractIntegrationTest.java
 /Users/yuhao/Code/MicroService/apollo4ZYB/apollo-portal/src/test/java/com/ctrip/framework/apollo/portal/spi/defaultImpl/RolePermissionServiceTest.java
+/Users/yuhao/Code/MicroService/apollo4ZYB/apollo-portal/src/test/java/com/ctrip/framework/apollo/portal/util/RoleUtilsTest.java
 /Users/yuhao/Code/MicroService/apollo4ZYB/apollo-portal/src/test/java/com/ctrip/framework/apollo/portal/component/txtresolver/FileTextResolverTest.java
 /Users/yuhao/Code/MicroService/apollo4ZYB/apollo-portal/src/test/java/com/ctrip/framework/apollo/portal/service/NamespaceServiceTest.java
 /Users/yuhao/Code/MicroService/apollo4ZYB/apollo-portal/src/test/java/com/ctrip/framework/apollo/portal/component/txtresolver/PropertyResolverTest.java
